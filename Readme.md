@@ -23,16 +23,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        fetch-depth: 10  # larger than the number of commits you made
+        fetch-depth: 10  # greater than the number of commits you made
     - uses: imba-tjd/rebase-upstream-action@master
-      id: rebase
-      with:
-        upstream: https://github.com/<user>/<repo>.git
-    - uses: ad-m/github-push-action@master
-      if: steps.rebase.outputs.needs-push
-      with:
-        force: true
-        github_token: ${{ github.token }}
 ```
 
 Waiting for https://github.com/actions/runner/issues/646.

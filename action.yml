@@ -28,7 +28,7 @@ runs:
         if [ -z $UPSTREAM ]; then
             echo ${{ inputs.token }} | gh auth login --with-token;
             UPSTREAM=$(a.json | jq .parent.full_name);
-            if [ -z $UPSTREAM ]; then echo "Can't find upstream" && exit 1;
+            if [ -z $UPSTREAM ]; then echo "Can't find upstream" && exit 1; fi;
         fi;
 
         git remote add upstream https://github.com/$UPSTREAM.git;

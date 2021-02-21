@@ -16,6 +16,7 @@ name: Rebase Upstream
 on:
   schedule:
   - cron: "0 0 * * 0"  # run once a week
+  workflow_dispach:    # run manually
 
 jobs:
   sync:

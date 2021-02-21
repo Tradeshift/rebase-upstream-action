@@ -24,10 +24,10 @@ runs:
     - run: |
         set -ex;
 
-        UPSTREAM="${{ inputs.upstream }}";
+        UPSTREAM=${{ inputs.upstream }};
         if [ -z $UPSTREAM ]; then
             echo ${{ inputs.token }} | gh auth login --with-token;
-            $UPSTREAM=$(a.json | jq .parent.full_name);
+            UPSTREAM=$(a.json | jq .parent.full_name);
             if [ -z $UPSTREAM ]; then echo "Can't find upstream" && exit 1;
         fi;
 

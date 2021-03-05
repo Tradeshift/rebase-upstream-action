@@ -28,7 +28,10 @@ jobs:
     - uses: imba-tjd/rebase-upstream-action@master
 ```
 
-Waiting for https://github.com/actions/runner/issues/646.
+## TODO
+
+* Waiting for https://github.com/actions/runner/issues/646
+* Allow depth to be set to 0 indicating unlimited
 
 ## Comparison
 

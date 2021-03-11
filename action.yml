@@ -14,7 +14,7 @@ inputs:
     required: false
     default: master
   depth:
-    description: The fetch depth
+    description: Greater than the number of commits the upstream made in a period
     required: false
     default: 100
 
@@ -28,12 +28,18 @@ runs:
         if [ -z $UPSTREAM ]; then
             echo ${{ github.token }} | gh auth login --with-token;
             UPSTREAM=$(gh api repos/:owner/:repo --jq .parent.full_name);
-            if [ -z $UPSTREAM ]; then echo "Can't find upstream" && exit 1; fi;
+            if [ -z $UPSTREAM ]; then echo "Can't find upstream" >&2 && exit 1; fi;
+        fi;
+        if [ ! $(echo $UPSTREAM | grep '^http') ]; then
+            UPSTREAM=https://github.com/$UPSTREAM.git
+        fi;
+        if [ ${{ inputs.depth }} -ne 0 ]; then
+            DEPTH=--depth=${{ inputs.depth }}
         fi;
 
-        git remote add upstream https://github.com/$UPSTREAM.git;
+        git remote add upstream $UPSTREAM;
 
-        git fetch upstream ${{ inputs.branch }} --depth=${{ inputs.depth }};
+        git fetch upstream ${{ inputs.branch }} $DEPTH;
 
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com";
         git config --local user.name  "GitHub Actions";
@@ -41,6 +47,6 @@ runs:
         git rebase upstream/${{ inputs.branch }};
 
         if [ "$(git status | grep diverged)" ]; then
-          git push origin $(git branch --show-current) --force-with-lease;
+            git push origin $(git branch --show-current) --force-with-lease;
         fi;
       shell: bash

@@ -20,7 +20,7 @@ inputs:
   push:
     description: Do the force push in this script
     required: false
-    default:  True
+    default:  true
 
 runs:
   using: composite
@@ -50,7 +50,7 @@ runs:
 
         git rebase upstream/${{ inputs.branch }};
 
-        if [ "${{ inputs.push }}" = "True" -a "$(git status | grep diverged)" ]; then
+        if [ "${{ inputs.push }}" = "true" -a "$(git status | grep diverged)" ]; then
             git push origin $(git branch --show-current) --force-with-lease;
         fi;
       shell: bash

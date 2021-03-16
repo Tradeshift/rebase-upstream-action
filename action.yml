@@ -7,16 +7,20 @@ branding:
 
 inputs:
   upstream:
-    description: <user>/<repo>
+    description: <user>/<repo> or the full HTTP URL
     required: false
   branch:
     description: The upstream branch that is rebased on
     required: false
-    default: master
+    default:  master
   depth:
     description: Greater than the number of commits the upstream made in a period
     required: false
-    default: 100
+    default:  100
+  push:
+    description: Do the force push in this script
+    required: false
+    default:  True
 
 runs:
   using: composite
@@ -30,7 +34,7 @@ runs:
             UPSTREAM=$(gh api repos/:owner/:repo --jq .parent.full_name);
             if [ -z $UPSTREAM ]; then echo "Can't find upstream" >&2 && exit 1; fi;
         fi;
-        if [ ! $(echo $UPSTREAM | grep '^http') ]; then
+        if [ ! $(echo $UPSTREAM | grep '^(http|git@)') ]; then
             UPSTREAM=https://github.com/$UPSTREAM.git
         fi;
         if [ ${{ inputs.depth }} -ne 0 ]; then
@@ -46,7 +50,7 @@ runs:
 
         git rebase upstream/${{ inputs.branch }};
 
-        if [ "$(git status | grep diverged)" ]; then
+        if [ "${{ inputs.push }}" = "True" -a "$(git status | grep diverged)" ]; then
             git push origin $(git branch --show-current) --force-with-lease;
         fi;
       shell: bash

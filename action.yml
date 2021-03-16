@@ -34,7 +34,7 @@ runs:
             UPSTREAM=$(gh api repos/:owner/:repo --jq .parent.full_name);
             if [ -z $UPSTREAM ]; then echo "Can't find upstream" >&2 && exit 1; fi;
         fi;
-        if [ ! $(echo $UPSTREAM | grep '^(http|git@)') ]; then
+        if [ ! $(echo $UPSTREAM | egrep '^(http|git@)') ]; then
             UPSTREAM=https://github.com/$UPSTREAM.git
         fi;
         if [ ${{ inputs.depth }} -ne 0 ]; then

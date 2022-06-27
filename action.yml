@@ -43,7 +43,7 @@ runs:
 
         git remote add upstream $UPSTREAM;
 
-        git fetch --tags upstream ${{ inputs.branch }} $DEPTH;
+        git fetch --tags -f upstream ${{ inputs.branch }} $DEPTH;
 
         # Removed since this is set in tradeshift/actions-git/configure-from-gpg-key@v1
         # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com";

@@ -45,8 +45,9 @@ runs:
 
         git fetch upstream ${{ inputs.branch }} $DEPTH;
 
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com";
-        git config --local user.name  "GitHub Actions";
+        # Removed since this is set in tradeshift/actions-git/configure-from-gpg-key@v1
+        # git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com";
+        # git config --local user.name  "GitHub Actions";
 
         git rebase upstream/${{ inputs.branch }};
 

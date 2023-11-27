@@ -51,8 +51,8 @@ runs:
 
         git rebase upstream/${{ inputs.branch }};
 
-        #if [ "${{ inputs.push }}" = "true" -a "$(git status | grep diverged)" ]; then
-            gh auth status
+
+        gh auth status
             #git push -f --tags origin $(git branch --show-current) --force-with-lease;
-        #fi;
+
       shell: bash
